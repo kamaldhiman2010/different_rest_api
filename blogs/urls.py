@@ -20,6 +20,12 @@ urlpatterns = [
     path('generics/<int:pk>/', BlogRetriveUpdateDestroyAPI.as_view()),
     path('viewsets/', BlogViewSets.as_view({'get': 'list'}), name='blog-list'),
     path('viewsets/<int:pk>/',BlogViewSets.as_view({'get': 'retrieve'}), name='blog-detail'),
+    path('viewsets/create/',
+         BlogViewSets.as_view({'post': 'create_data'}), name='blog-create'),
+    path('viewsets/update/<int:pk>/',
+         BlogViewSets.as_view({'put': 'update'}), name='blog-update'),
+    path('viewsets/delete/<int:pk>/',
+         BlogViewSets.as_view({'delete': 'destroy'}), name='blog-delete'),
     # modelviewset
     path('model_viewsets/',BlogModelViewSets.as_view({'get': 'list'})),
     path('create_viewsets/', BlogModelViewSets.as_view({'post': 'create'})),
