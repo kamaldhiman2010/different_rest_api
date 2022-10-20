@@ -6,6 +6,8 @@ from blogs.serializers import BlogSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
+
+
 class BlogViewSets(viewsets.ViewSet):
     def list(self,request):
         queryset = BlogModel.objects.all()

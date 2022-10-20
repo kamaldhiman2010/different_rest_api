@@ -1,9 +1,11 @@
+from select import select
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from uritemplate import partial
 from blogs.serializers import  BlogSerializer
-from blogs.models import BlogModel
+from blogs.models import BlogModel,Movie,Director
 
 @api_view(['GET','POST'])
 def blog_view(request):
@@ -55,3 +57,22 @@ def blog_detail(request, pk):
     elif request.method == 'DELETE':
         single_blog_data.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+def movie_view(request):
+    get_model_data = Movie.objects.all()
+    get_single_model_data = Movie.objects.get(id=2)
+    director_name = get_single_model_data.director.name
+    select_related_data = Movie.objects.select_related('director').all()[0].director
+    all_director_name = Movie.objects.select_related('director').all().values('director__name')
+    movies = Movie.objects.prefetch_related('director')
+    movies_detail = Movie.objects.prefetch_related('director').values('id', 'movie_title', 'director')
+    context = {
+        'get_model_data': get_model_data,
+        'get_single_data': director_name,
+        'select_related_data': select_related_data,
+        'all_director_name': all_director_name,
+        'movies':movies,
+        'movies_detail':movies_detail
+        }
+    return render(request,'model_data.html',context=context)

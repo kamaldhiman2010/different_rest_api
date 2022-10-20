@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <titlle>Model data</titlle>
+</head>
+
+<body>
+    <div>
+        <h4>Data with query <b>get_model_data = Movie.objects.all()</b></h4>
+        <b> select query : <br>SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
+            "blogs_movie"."director_id" FROM "blogs_movie" LIMIT 21; args=(); alias=default<br> </b>
+        {{get_model_data}}
+    </div>
+
+    <br><br>
+    <div>
+        <h4>Getting single data with get query and get director name which have relation as forign key with movie table
+        </h4>
+        <div>Query = get_single_model_data = Movie.objects.get(id=2)<br>
+            director_name = get_single_model_data.director.name</div><br>
+        <b>Select queries: <br>SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
+            "blogs_movie"."director_id" FROM "blogs_movie" WHERE "blogs_movie"."id" = 2 LIMIT 21; args=(2,);
+            alias=default
+            <br>SELECT "blogs_director"."id", "blogs_director"."name" FROM "blogs_director" WHERE "blogs_director"."id"
+            = 3
+            LIMIT 21; args=(3,); alias=default<br></b>
+        <h5>Director name = <b>{{get_single_data}}</b></h5>
+
+    </div>
+    <div>
+        As seen in the above code, we need to run a separate query to fetch the director name using the Movie object.
+        <br>
+        These separate queries for the related objects decrease the performance of an application. Suppose we have 1000
+        movies,
+        and we have to create a list of movies with the author's name.
+        <br>
+        Each time we access the foreign key, we need to make another query to retrieve the value. So, we will end up
+        running
+        1001queries to fetch the list of the books.
+        <br>
+        To overcome this problem, Django provides the select_related(), which will reduce the 1001 queries to 1.
+    </div>
+    <br>
+    <br>
+    <div>
+        <h2>select related</h2>
+        <br>The select_related performs the inner join operations in the table.
+        <br>
+        Query for select related is : select_related_data = Movie.objects.select_related('director').all()[0].director
+        <br><b>Select Query : <br> SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
+            "blogs_movie"."director_id",
+            "blogs_director"."id", "blogs_director"."name" FROM "blogs_movie" INNER JOIN "blogs_director" ON
+            ("blogs_movie"."director_id" = "blogs_director"."id") LIMIT 1; args=(); alias=default<br></b>
+        <br> <b>Director name = {{select_related_data}} </b>
+        <br><b>SELECT "blogs_director"."name" FROM "blogs_movie" INNER JOIN "blogs_director" ON ("blogs_movie"."director_id" =
+        "blogs_director"."id") LIMIT 21; args=(); alias=default<br></b>
+        <br> <b> List of directors = {{all_director_name}}</b>
+    </div><br><br>
+    <b>The select_related is only limited to foreign key relationship. If there is many to many relationships then we
+        cannot
+        use the select_related. In that case, we can use the prefech_related.</b>
+    <div>
+        <div>
+            <h3>Prefetch Related
+            </h3>
+            Query for prefetch related = movies = Movie.objects.prefetch_related('director').values('id', 'movie_title',
+            'director')
+        </div>
+        <br><br>
+        <b>Select Query :<br>
+        SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
+        "blogs_movie"."director_id" FROM "blogs_movie" LIMIT 21; args=(); alias=default
+        <br> SELECT "blogs_director"."id", "blogs_director"."name" FROM "blogs_director" WHERE "blogs_director"."id" IN (1,2,
+        3); args=(1,2, 3); alias=default<br></b>
+        <div>
+            {{movies}}
+            <br><br>
+            {{movies_detail}}
+        </div>
+
+    </div>
+    <div>
+        <h1>Conclusion</h1>
+        So far, we have seen how select_related and prefetch_related efficiently reduced the queries overhead in Django.
+        <br>The
+        select_related is used with the foreign key relationship, and it performs the INNER join operations with the
+        associate
+        table.
+        <br>
+        On the other hand, prefech_related is used with the many to many relationships. Select_related obtains all data
+        simultaneously through multi-table join Association query and improves performance by reducing database queries.
+        <br>
+        But in many to many relationships, it is not a good choice to solve them using the JOINS because it will be a
+        very long
+        and tedious process. It will be ended up very time-consuming and SQL statements.<br> To solve such a problem, we
+        will use
+        prefetch_related.
+    </div>
+
+</body>
+
+</html>

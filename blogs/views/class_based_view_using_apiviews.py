@@ -56,5 +56,7 @@ class BlogAPIView(APIView):
                         'success': True,
                         'message': 'APIView:  delete request fulfilled !!',
                         'data': ''
-                    })            
+                    })       
+        
+             
             
