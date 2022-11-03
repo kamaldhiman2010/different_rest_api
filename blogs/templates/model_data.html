@@ -52,8 +52,9 @@
             "blogs_director"."id", "blogs_director"."name" FROM "blogs_movie" INNER JOIN "blogs_director" ON
             ("blogs_movie"."director_id" = "blogs_director"."id") LIMIT 1; args=(); alias=default<br></b>
         <br> <b>Director name = {{select_related_data}} </b>
-        <br><b>SELECT "blogs_director"."name" FROM "blogs_movie" INNER JOIN "blogs_director" ON ("blogs_movie"."director_id" =
-        "blogs_director"."id") LIMIT 21; args=(); alias=default<br></b>
+        <br><b>SELECT "blogs_director"."name" FROM "blogs_movie" INNER JOIN "blogs_director" ON
+            ("blogs_movie"."director_id" =
+            "blogs_director"."id") LIMIT 21; args=(); alias=default<br></b>
         <br> <b> List of directors = {{all_director_name}}</b>
     </div><br><br>
     <b>The select_related is only limited to foreign key relationship. If there is many to many relationships then we
@@ -68,10 +69,11 @@
         </div>
         <br><br>
         <b>Select Query :<br>
-        SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
-        "blogs_movie"."director_id" FROM "blogs_movie" LIMIT 21; args=(); alias=default
-        <br> SELECT "blogs_director"."id", "blogs_director"."name" FROM "blogs_director" WHERE "blogs_director"."id" IN (1,2,
-        3); args=(1,2, 3); alias=default<br></b>
+            SELECT "blogs_movie"."id", "blogs_movie"."movie_title", "blogs_movie"."release_year",
+            "blogs_movie"."director_id" FROM "blogs_movie" LIMIT 21; args=(); alias=default
+            <br> SELECT "blogs_director"."id", "blogs_director"."name" FROM "blogs_director" WHERE "blogs_director"."id"
+            IN (1,2,
+            3); args=(1,2, 3); alias=default<br></b>
         <div>
             {{movies}}
             <br><br>

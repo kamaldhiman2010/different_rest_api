@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blogs.middleware.MyProcessMiddleware',
+    'blogs.middleware.my_middleware'
 ]
 
 ROOT_URLCONF = 'api_using_dj_rest_framework.urls'

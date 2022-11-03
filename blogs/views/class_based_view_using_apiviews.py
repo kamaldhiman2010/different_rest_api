@@ -26,17 +26,21 @@ class BlogAPIView(APIView):
                 })
                 
     def put(self,request,*args,**kwargs):
-        if request.data.get('id') is not None:
-            blog = BlogModel.objects.get(pk= request.data.get('id'))
-            if blog:
-                serializer = BlogSerializer(blog,data = request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response({
-                        'success': True,
-                        'message': 'APIView:  updated blog post !!',
-                        'data': serializer.data
-                    })
+        try:
+            if request.data.get('id') is not None:
+                blog = BlogModel.objects.get(pk= request.data.get('id'))
+                if blog:
+                    serializer = BlogSerializer(blog,data = request.data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response({
+                            'success': True,
+                            'message': 'APIView:  updated blog post !!',
+                            'data': serializer.data
+                        })
+        except BlogModel.DoesNotExist:
+            return Response({'Exception': 'Data Not Found'})
+            
         return Response({
             'success': True,
             'message': 'Put request fulfilled !!',
