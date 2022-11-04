@@ -38,10 +38,10 @@ def blog_detail(request, pk):
     """
     Retrieve, update or delete a code single_blog_data.
     """
-    try:
-        single_blog_data = BlogModel.objects.get(pk=pk)
-    except BlogModel.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    # try:
+    single_blog_data = BlogModel.objects.get(pk=pk)
+    # except BlogModel.DoesNotExist:
+    #     return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = BlogSerializer(single_blog_data)
