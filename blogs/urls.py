@@ -5,13 +5,16 @@ from blogs.views import viewsets_api_views
 from blogs.views import generic_api_views
 from blogs.views.class_based_view_using_apiviews import BlogAPIView
 
-from blogs.views.fn_based_views import blog_detail, blog_view, movie_view
+from blogs.views.fn_based_views import annotate_data, blog_detail, blog_view, movie_view,test
 from blogs.views.generic_api_views import BlogCreateView, BlogListCreateAPI, BlogListView, BlogRetriveUpdateDestroyAPI, FavoriteViewSet
 from blogs.views.viewsets_api_views import BlogViewSets, BlogModelViewSets
 
 
 urlpatterns = [
     path('movie_view/', movie_view, name='movie_view'),
+    path('test/', test, name='test'),
+#     path('index/',index,name= "index"),
+    path('annotate_data/', annotate_data, name='annotate_data'),
     path('cbv/', blog_view),
     path('cbv/<int:pk>/', blog_detail),
     path('apiviews/', BlogAPIView.as_view()),
